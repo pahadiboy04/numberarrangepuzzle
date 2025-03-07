@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automata 2025 | Puzzle Slider Game</title>
+    <style>
+        body {
+            text-align: center;
+            background: url('p.png') no-repeat;
+            background-size: 100% 150%;
+            color: #000;
+            font-family: Arial, sans-serif;
+        }
+        #puzzle-container {
+            display: grid;
+            grid-template-columns: repeat(3, 175px);
+            grid-gap: 5px;
+            margin: 40px auto;
+            width: 515px;
+        }
+        .tile {
+            width: 170px;
+            height: 150px;
+            background: #ffeb3b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            border: 2px solid black;
+        }
+        #clue {
+            display: none;
+            font-size: 24px;
+            color: #ffeb3b;
+            margin-top: 20px;
+        }
+        #exit {
+            display: none;
+            padding: 10px 20px;
+            background: red;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>Automata 2025 | Puzzle Slider Game</h1>
+<p>Solve the Puzzle to Reveal the Clue!</p>
+<div id="puzzle-container"></div>
+<div id="clue">🎯 Congratulations! Your Clue is: BLACK BOX</div>
+<button id="exit" onclick="exitGame()">Exit</button>
+
+<script>
+const numbers = [...Array(9).keys()].slice(1).concat('');
+let tiles = [];
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+function createPuzzle() {
+    shuffle(numbers);
+    const container = document.getElementById("puzzle-container");
+    container.innerHTML = "";
+    tiles = [];
+    numbers.forEach(num => {
+        const tile = document.createElement("div");
+        tile.className = "tile";
+        tile.innerText = num;
+        tile.onclick = () => moveTile(tile);
+        tiles.push(tile);
+        container.appendChild(tile);
+    });
+}
+
+function moveTile(tile) {
+    const index = tiles.indexOf(tile);
+    const emptyIndex = tiles.findIndex(t => t.innerText === '');
+    const validMoves = [index - 1, index + 1, index - 3, index + 3];
+
+    if (validMoves.includes(emptyIndex) && 
+        !(index % 3 === 2 && emptyIndex === index + 1) && 
+        !(index % 3 === 0 && emptyIndex === index - 1)) {
+        tiles[emptyIndex].innerText = tile.innerText;
+        tile.innerText = '';
+        checkWin();
+    }
+}
+
+function checkWin() {
+    if (tiles.map(t => t.innerText).join('') === '12345678') {
+        document.getElementById("clue").style.display = "block";
+        document.getElementById("exit").style.display = "block";
+    }
+}
+
+function exitGame() {
+    alert("Thank you for playing!");
+    window.close();
+}
+
+createPuzzle();
+</script>
+</body>
+</html>
