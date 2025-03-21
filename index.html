@@ -7,7 +7,7 @@
     <style>
         body {
             text-align: center;
-            background: url('p.png') no-repeat;
+            background: url('2.png') no-repeat;
             background-size: 100% 150%;
             color: #000;
             font-family: Arial, sans-serif;
@@ -32,9 +32,24 @@
         }
         #clue {
             display: none;
-            font-size: 24px;
+            font-size: 28px;
             color: #ffeb3b;
-            margin-top: 20px;
+            margin-top: 40px;
+        }
+        #clueButton {
+            margin-top: 25px;
+            padding: 15px 30px;
+            font-size: 22px;
+            border-radius: 10px;
+            background-color: #00c853;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #clueButton:hover {
+            background-color: #00e676;
         }
         #exit {
             display: none;
@@ -50,8 +65,11 @@
 <h1>Automata 2025 | Puzzle Slider Game</h1>
 <p>Solve the Puzzle to Reveal the Clue!</p>
 <div id="puzzle-container"></div>
-<div id="clue">🎯 Congratulations! Your Clue is: BLACK BOX</div>
-<button id="exit" onclick="exitGame()">Exit</button>
+<div id="clue">
+    🎯 <strong>Congratulations!</strong> Your Next coding challenge is: <span style="color: #ffeb3b;"></span>
+    <br><br>
+    <button id="clueButton">Question</button>
+</div>
 
 <script>
 const numbers = [...Array(9).keys()].slice(1).concat('');
@@ -106,6 +124,9 @@ function exitGame() {
 }
 
 createPuzzle();
+document.getElementById("clueButton").addEventListener("click", function() {
+    window.open("https://pahadiboy04.github.io/question5/", "_blank");
+});
 </script>
 </body>
 </html>
